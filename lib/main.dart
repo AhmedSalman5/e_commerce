@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/cubit_app/app_states.dart';
 import 'screens/auth/welcome/welcome.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,21 +37,29 @@ void main() async {
   DioHelper.init();
   Bloc.observer = MyBlocObserver();
 
+
   // to get profile to user
   Widget? widget;
   // uId = CacheHelper.getData(key: 'uId');
-  
+
   if (uId != null) {
     widget = const Home();
   } else {
     widget = const Welcome();
   }
 
+// if (kIsWeb) {
+// setPathUrlStrategy();
+// runApp(
+//   MyApp(),
+// );
+  if (true) {
+    setPathUrlStrategy();
   runApp(MyApp(
     startWidget: widget,
   ));
+  }
 }
-
 
 // ignore: must_be_immutable
 class MyApp extends StatelessWidget {
@@ -64,7 +73,9 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => AuthCubit(),
         ),
         BlocProvider(
-          create: (BuildContext context) => AppCubit()..getCategories()..getCategoryView(),
+          create: (BuildContext context) => AppCubit()
+            ..getCategories()
+            ..getCategoryView(),
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(

@@ -7,7 +7,6 @@ import 'package:e_commerce_app/widgets/screen_builder.dart';
 import 'package:e_commerce_app/widgets/top_titles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -98,11 +97,13 @@ class Home extends StatelessWidget {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(top: 7),
-                                  child: FadeInImage.memoryNetwork(
-                                      placeholder: kTransparentImage,
-                                      image: singleProduct.images![0],
-                                      height: 70,
-                                      width: 70),
+                                  child: Image.network(singleProduct.images![0],
+                                      height: 70, width: 70),
+                                  // FadeInImage.memoryNetwork(
+                                  //     placeholder: kTransparentImage,
+                                  //     image: singleProduct.images![0],
+                                  //     height: 70,
+                                  //     width: 70),
                                 ),
                                 const SizedBox(
                                   height: 12,

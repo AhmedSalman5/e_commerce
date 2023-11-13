@@ -5,6 +5,7 @@ import 'package:e_commerce_app/models/data_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'app_states.dart';
 
+
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
 
@@ -82,18 +83,19 @@ class AppCubit extends Cubit<AppStates> {
     return categoryModel;
   }
 
+
   //----------------------------------------------------------------------------
   // Add to Cart List
-  // List<dynamic> cartList = [];
-  // void addCartLis(singleCartList) {
-  //   cartList.add(singleCartList);
-  //   emit(AddCartLisState());
-  // }
+  List<dynamic> cartList = [];
+  void addCartLis(singleCartList) {
+    cartList.add(singleCartList);
+    emit(AddCartLisState());
+  }
 
-  // void removeCartLis(singleCartList) {
-  //   cartList.remove(singleCartList);
-  //   emit(RemoveCartLisState());
-  // }
+  void removeCartLis(singleCartList) {
+    cartList.remove(singleCartList);
+    emit(RemoveCartLisState());
+  }
 
-  // List<dynamic> get getCartList => cartList;
+  List<dynamic> get getCartList => cartList;
 }

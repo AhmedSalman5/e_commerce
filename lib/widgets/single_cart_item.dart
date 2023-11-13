@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class SingleCartItem extends StatelessWidget {
   final String image;
@@ -38,10 +37,11 @@ class SingleCartItem extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.green.withOpacity(0.3),
               ),
-              child: FadeInImage.memoryNetwork(
-                placeholder: kTransparentImage,
-                image: image,
-              ),
+              child: Image.network(image),
+              // FadeInImage.memoryNetwork(
+              //   placeholder: kTransparentImage,
+              //   image: image,
+              // ),
             ),
           ),
           Expanded(

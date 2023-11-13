@@ -6,5 +6,6 @@
         "Dont",
         "firestore",
         "hlper"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

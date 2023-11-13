@@ -7,7 +7,6 @@ import 'package:e_commerce_app/widgets/tost_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class ProductDetails extends StatelessWidget {
   final Product singleProduct;
@@ -46,11 +45,14 @@ class ProductDetails extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  FadeInImage.memoryNetwork(
-                      placeholder: kTransparentImage,
-                      image: singleProduct.images![0],
-                      height: 350,
-                      width: 350),
+                  Image.network(
+                    singleProduct.images![0],
+                    height: 350,
+                    width: 350
+                  ),
+                      // image: singleProduct.images![0],
+                      // height: 350,
+                      // width: 350
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -150,8 +152,8 @@ class ProductDetails extends StatelessWidget {
                         width: 140,
                         child: OutlinedButton(
                           onPressed: () {
-                            // cubit.addCartLis(singleProduct);
-                            // showMessage('Added to cart');
+                            cubit.addCartLis(singleProduct);
+                            showMessage('Added to cart');
                           },
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.green,

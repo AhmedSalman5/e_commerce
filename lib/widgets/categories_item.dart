@@ -1,9 +1,9 @@
 import 'package:e_commerce_app/constants/routes.dart';
 import 'package:e_commerce_app/models/category_model.dart';
 import 'package:e_commerce_app/screens/category_view/category_view.dart';
-import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 
 Widget buildArticleItem(categoryModel, context) => Container(
       height: 100,
@@ -34,12 +34,20 @@ Widget buildArticleItem(categoryModel, context) => Container(
                       borderRadius: BorderRadius.circular(20),
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
-                        child: FadeInImage.memoryNetwork(
-                          placeholder: kTransparentImage,
-                          image: "${singleCategory.image}",
+                        child:
+                        // Image.network(
+                        //   assetManager.getAssetUrl("${singleCategory.image}"),),
+                        Image.network(
+                          "${singleCategory.image}",
                           height: 70,
                           width: 70,
                         ),
+                        // FadeInImage.memoryNetwork(
+                        //   placeholder: kTransparentImage,
+                        //   image: "${singleCategory.image}",
+                        //   height: 70,
+                        //   width: 70,
+                        // ),
                       ),
                     ),
                   )),
