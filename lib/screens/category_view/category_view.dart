@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+import '../../constants/routes.dart';
+import '../../widgets/tost_message.dart';
+import '../cart/cart_screen.dart';
+
 class CategoryView extends StatelessWidget {
   final CategoryModel singleCategoryModel;
   const CategoryView({super.key, required this.singleCategoryModel});
@@ -27,7 +31,10 @@ class CategoryView extends StatelessWidget {
             ),
             actions: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Routes.instance
+                        .push(context: context, widget: const CartScreen());
+                  },
                   icon: const Icon(
                     Icons.shopping_cart,
                   )),
@@ -91,7 +98,18 @@ class CategoryView extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        cubit.changeFavoriteProduct(singleCategoryModel.id!);
+                        bool isCurrentlyFavorite = cubit.isFavorite[singleCategoryModel.id] ?? false;
+                        if (isCurrentlyFavorite) {
+                          cubit.removeFavorite('${singleCategoryModel.id}');
+                          cubit.changeFavoriteProduct(singleCategoryModel.id!);
+                           showMessage('Removed from Favorite');
+                           // print('تم الحذف من المفضله');
+                        } else {
+                          cubit.addCFavorite(itemId: '${singleCategoryModel.id}', value: true);
+                          cubit.changeFavoriteProduct(singleCategoryModel.id!);
+                          showMessage('Added to Favorite');
+                           // print('تم الاضافه الي المفضله');
+                        }
                       },
                       icon: cubit.isFavorite[singleCategoryModel.id] ?? false
                           ? const Icon(Icons.favorite, color: Colors.red)
@@ -112,7 +130,7 @@ class CategoryView extends StatelessWidget {
                     CircleAvatar(
                       child: IconButton(
                           onPressed: () {
-                            cubit.minusItemCounter(singleCategoryModel.id!);
+                            cubit.minusItemCounter(singleCategoryModel.id);
                           },
                           icon: const Icon(Icons.remove)),
                     ),
@@ -132,7 +150,7 @@ class CategoryView extends StatelessWidget {
                     CircleAvatar(
                       child: IconButton(
                           onPressed: () {
-                            cubit.plusItemCounter(singleCategoryModel.id!);
+                            cubit.plusItemCounter(singleCategoryModel.id);
                           },
                           icon: const Icon(Icons.add)),
                     ),
@@ -146,7 +164,12 @@ class CategoryView extends StatelessWidget {
                       height: 38,
                       width: 140,
                       child: OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          cubit.addCartList(itemId: '${singleCategoryModel.id}', value:singleCategoryModel );
+                          showMessage('Added to cart');
+                          // cubit.addCartList(singleCategoryModel.id);
+                          // showMessage('Added to cart');
+                        },
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.green,
                           side: const BorderSide(

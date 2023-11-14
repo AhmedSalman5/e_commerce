@@ -19,11 +19,13 @@ class Home extends StatelessWidget {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (BuildContext context, state) {},
       builder: (BuildContext context, Object? state) => Scaffold(
-        body: cubit.isLoading
+        body:
+        cubit.isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : SingleChildScrollView(
+            :
+            SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

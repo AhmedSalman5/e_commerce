@@ -19,7 +19,9 @@ class ChangeFavoriteProduct extends AppStates{}
 
  class AddCartLisState extends AppStates{}
  class RemoveCartLisState extends AppStates{}
-// class CategoriesLoadingState extends AppStates{}
-// class CategoriesLoadingState extends AppStates{}
+
+
+class AddFavoriteState extends AppStates{}
+class RemoveFavoriteState extends AppStates{}
 // class CategoriesLoadingState extends AppStates{}
 

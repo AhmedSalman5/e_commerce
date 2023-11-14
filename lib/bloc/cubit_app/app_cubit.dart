@@ -85,17 +85,39 @@ class AppCubit extends Cubit<AppStates> {
 
 
   //----------------------------------------------------------------------------
+
   // Add to Cart List
-  List<dynamic> cartList = [];
-  void addCartLis(singleCartList) {
-    cartList.add(singleCartList);
-    emit(AddCartLisState());
+  Map<String, dynamic> cartList = {};
+  void addCartList({required String itemId,required dynamic value}) {
+    if (!cartList.containsKey(itemId)) {
+      cartList[itemId] = value;
+      emit(AddCartLisState());
+    }
   }
-
-  void removeCartLis(singleCartList) {
-    cartList.remove(singleCartList);
-    emit(RemoveCartLisState());
+ // Remove from Cart
+  void removeCartList(String itemId) {
+    if (cartList.containsKey(itemId)) {
+      cartList.remove(itemId);
+      emit(RemoveCartLisState());
+    }
   }
-
-  List<dynamic> get getCartList => cartList;
+  // Map<String, dynamic> get _cartList => cartList;
+//------------------------------------------------------------------------------
+  // Add to Favorite
+  Map<String, bool> favoriteList = {};
+  void addCFavorite({required String itemId,required bool value}) {
+    if (!favoriteList.containsKey(itemId)) {
+      favoriteList[itemId] = value;
+      emit(AddFavoriteState());
+    }
+  }
+  // Remove from Favorite
+  void removeFavorite(String itemId) {
+    if (favoriteList.containsKey(itemId)) {
+      favoriteList.remove(itemId);
+      emit(RemoveFavoriteState());
+    }
+  }
+// Map<String, dynamic> get _favoriteList => favoriteList;
+//------------------------------------------------------------------------------
 }

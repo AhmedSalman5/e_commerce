@@ -9,6 +9,7 @@ class SingleCartItem extends StatelessWidget {
   final Function() minus;
   final Function() plus;
   final Function() addToWishList;
+  final Function() delete;
   const SingleCartItem({
     super.key,
     required this.image,
@@ -18,6 +19,7 @@ class SingleCartItem extends StatelessWidget {
     required this.minus,
     required this.plus,
     required this.addToWishList,
+    required this.delete,
   });
 
   @override
@@ -115,22 +117,32 @@ class SingleCartItem extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Row(
+                    // price of products
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          '\$',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                          ),
+                        Row(
+                          children: [
+                            const Text(
+                              '\$',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green,
+                              ),
+                            ),
+                            Text(
+                                price,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                          ],
                         ),
-                        Text(
-                          price,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        IconButton(
+                          onPressed: delete,
+                          icon: const Icon(Icons.delete,color: Colors.red,),
                         ),
                       ],
                     ),
@@ -144,3 +156,4 @@ class SingleCartItem extends StatelessWidget {
     );
   }
 }
+

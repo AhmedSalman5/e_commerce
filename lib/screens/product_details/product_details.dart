@@ -50,9 +50,6 @@ class ProductDetails extends StatelessWidget {
                     height: 350,
                     width: 350
                   ),
-                      // image: singleProduct.images![0],
-                      // height: 350,
-                      // width: 350
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -96,7 +93,18 @@ class ProductDetails extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          cubit.changeFavoriteProduct(singleProduct.id!);
+                          bool isCurrentlyFavorite = cubit.isFavorite[singleProduct.id] ?? false;
+                          if (isCurrentlyFavorite) {
+                            cubit.removeFavorite('${singleProduct.id}');
+                            cubit.changeFavoriteProduct(singleProduct.id!);
+                            showMessage('Removed from Favorite');
+                            // print('تم الحذف من المفضله');
+                          } else {
+                            cubit.addCFavorite(itemId: '${singleProduct.id}', value: true);
+                            cubit.changeFavoriteProduct(singleProduct.id!);
+                            showMessage('Added to Favorite');
+                            // print('تم الاضافه الي المفضله');
+                          }
                         },
                         icon: cubit.isFavorite[singleProduct.id] ?? false
                             ? const Icon(Icons.favorite, color: Colors.red)
@@ -152,7 +160,7 @@ class ProductDetails extends StatelessWidget {
                         width: 140,
                         child: OutlinedButton(
                           onPressed: () {
-                            cubit.addCartLis(singleProduct);
+                            cubit.addCartList(itemId: '${singleProduct.id}', value: singleProduct);
                             showMessage('Added to cart');
                           },
                           style: OutlinedButton.styleFrom(

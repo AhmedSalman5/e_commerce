@@ -1,12 +1,15 @@
 import 'package:e_commerce_app/bloc/cubit_app/app_cubit.dart';
 import 'package:e_commerce_app/bloc/cubit_app/app_states.dart';
-import 'package:e_commerce_app/models/data_model.dart';
 import 'package:e_commerce_app/widgets/single_cart_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../models/data_model.dart';
+import '../../widgets/tost_message.dart';
 
 class CartScreen extends StatelessWidget {
-  const CartScreen({super.key,});
+  const CartScreen({
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     var cubit = AppCubit.get(context);
@@ -28,25 +31,35 @@ class CartScreen extends StatelessWidget {
               style: TextStyle(color: Colors.black),
             ),
           ),
-          body: ListView.builder(
+          body: cubit.cartList.isEmpty ? const Center(
+            child: Text('Cart is Empty',style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w700,
+                ),),
+          ) : ListView.builder(
               padding: const EdgeInsets.all(12),
-              itemCount: 4,
-              //cubit.productList.length
+              itemCount: cubit.cartList.length,
               itemBuilder: (context, index) {
-                Product singleProductList = cubit.productList[index];
-                return SingleCartItem(
-                  image: singleProductList.images![0],
-                  title: '${singleProductList.title}',
-                  price: '${singleProductList.price}',
-                  counter: '${cubit.itemCounters[singleProductList.id] ?? 0}',
+                String key = cubit.cartList.keys.elementAt(index);
+                var singleItem = cubit.cartList[key]!;
+                  return SingleCartItem(
+                  image: singleItem is Product ? singleItem.images![0] : singleItem.image,
+                  title: '${singleItem.title}',
+                  price: '${singleItem.price}',
+                  counter: '${cubit.itemCounters[singleItem.id] ?? 0}',
                   minus: () {
-                    cubit.minusItemCounter(singleProductList.id);
+                    cubit.minusItemCounter(singleItem.id);
                   },
                   plus: () {
-                    cubit.plusItemCounter(singleProductList.id);
+                    cubit.plusItemCounter(singleItem.id);
                   },
                   addToWishList: () {
 
+                  },
+                  delete: () {
+                    cubit.removeCartList('${singleItem.id}');
+                    showMessage('Removed from cart');
                   },
                 );
               }),
@@ -55,3 +68,6 @@ class CartScreen extends StatelessWidget {
     );
   }
 }
+
+
+
