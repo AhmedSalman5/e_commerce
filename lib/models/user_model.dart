@@ -3,6 +3,7 @@ class UserModel {
   late String email;
   late String phone;
   late String uId;
+  late String image;
   late bool isEmailVerified;
 
   UserModel({
@@ -10,6 +11,7 @@ class UserModel {
     required this.email,
     required this.phone,
     required this.uId,
+    required this.image,
     required this.isEmailVerified,
   });
 
@@ -18,6 +20,7 @@ class UserModel {
     email = json["email"];
     phone = json["phone"];
     uId = json["uId"];
+    uId = json["image"];
     isEmailVerified = json["isEmailVerified"];
   }
 
@@ -26,6 +29,7 @@ class UserModel {
       'name': name,
       'email': email,
       'phone': phone,
+      'image': image,
       'isEmailVerified': isEmailVerified,
     };
   }

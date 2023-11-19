@@ -1,13 +1,13 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:e_commerce_app/bloc/cubit_auth/auth_cubit.dart';
-import 'package:e_commerce_app/constants/uid.dart';
-import 'package:e_commerce_app/screens/home/home.dart';
+
 import 'package:e_commerce_app/shared_preferences/shared_preferences.dart';
 import 'package:e_commerce_app/widgets/primary_button.dart';
 import 'package:e_commerce_app/widgets/top_titles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../bloc/cubit_auth/auth_states.dart';
+import '../../custom_bottom_bar/custom_bottom_bar.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
@@ -17,14 +17,19 @@ class SignUp extends StatelessWidget {
     var cubit = AuthCubit.get(context);
     return BlocConsumer<AuthCubit, AuthStates>(
       listener: (BuildContext context, AuthStates state) {
-        if (state is RegisterSuccessState) {
+        if (state is CreateUserSuccessState) {
           CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
-            print('uId = $uId taha');
+            if (value == true) {
+              print("uId Saved Successfully");
               Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => const Home()));
+                  context, MaterialPageRoute(builder: (context) => const CustomBottomBar()));
+            } else {
+              print("Failed to save uId");
+            }
           });
         }
       },
+
       builder: (BuildContext context, AuthStates state) => Scaffold(
         body: SingleChildScrollView(
           child: Padding(
@@ -182,7 +187,7 @@ class SignUp extends StatelessWidget {
                   //         .pushAndRemoveUntil(context: context, widget: Home());
                   //   },
                   // ),
-                  
+
                     ],
                   ),
                 ),

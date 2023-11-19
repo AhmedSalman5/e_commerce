@@ -2,7 +2,6 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:e_commerce_app/bloc/cubit_auth/auth_cubit.dart';
 import 'package:e_commerce_app/constants/routes.dart';
 import 'package:e_commerce_app/screens/auth/sign_up/sign_up.dart';
-import 'package:e_commerce_app/screens/home/home.dart';
 import 'package:e_commerce_app/widgets/primary_button.dart';
 import 'package:e_commerce_app/widgets/top_titles.dart';
 import 'package:e_commerce_app/widgets/tost_message.dart';
@@ -10,6 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../bloc/cubit_auth/auth_states.dart';
+import '../../../shared_preferences/shared_preferences.dart';
+import '../../custom_bottom_bar/custom_bottom_bar.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -22,18 +23,17 @@ class Login extends StatelessWidget {
         if (state is LoginErrorState) {
           showMessage(state.error);
         }
-        // if (state is LoginSuccessState) {
-        //   CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
-        //     print('uId = ${UserId.uId} taha');
-        //     Navigator.pushReplacement(
-        //         context, MaterialPageRoute(builder: (context) => const Home()));
-        //   });
-        // }
         if (state is LoginSuccessState) {
-          Routes.instance.pushAndRemoveUntil(
-            context: context,
-            widget: const Home(),
-          );
+          CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
+            if (value == true) {
+              print("uId Saved Successfully");
+              print(state.uId);
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => const CustomBottomBar()));
+            } else {
+              print("Failed to save uId");
+            }
+          });
         }
       },
       builder: (BuildContext context, AuthStates state) => Scaffold(

@@ -18,14 +18,14 @@ class CartScreen extends StatelessWidget {
       builder: (BuildContext context, AppStates state) {
         return Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(
-                Icons.arrow_back_ios,
-              ),
-            ),
+            // leading: IconButton(
+            //   onPressed: () {
+            //     Navigator.of(context).pop();
+            //   },
+            //   icon: const Icon(
+            //     Icons.arrow_back_ios,
+            //   ),
+            // ),
             title: const Text(
               'Cart',
               style: TextStyle(color: Colors.black),
@@ -43,20 +43,37 @@ class CartScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 String key = cubit.cartList.keys.elementAt(index);
                 var singleItem = cubit.cartList[key]!;
+                var doubleCounter = double.tryParse('${cubit.itemCounters[singleItem.id]}') ?? 0;
+                var doublePrice = double.tryParse('${singleItem.price}') ?? 0;
                   return SingleCartItem(
                   image: singleItem is Product ? singleItem.images![0] : singleItem.image,
                   title: '${singleItem.title}',
-                  price: '${singleItem.price}',
-                  counter: '${cubit.itemCounters[singleItem.id] ?? 0}',
+                  price: doubleCounter == 0 ?
+                  '${doublePrice * 0}':
+                  '${doublePrice * doubleCounter}',
+                  counter: doubleCounter.toString(),
                   minus: () {
                     cubit.minusItemCounter(singleItem.id);
                   },
                   plus: () {
                     cubit.plusItemCounter(singleItem.id);
                   },
-                  addToWishList: () {
-
+                  addToWishList: (){
+                    bool isCurrentlyFavorite = cubit.isFavorite[singleItem.id] ?? false;
+                    if (isCurrentlyFavorite) {
+                      cubit.removeFavorite('${singleItem.id}');
+                      cubit.changeFavoriteProduct(singleItem.id!);
+                      showMessage('Removed from Favorite');
+                      // print('تم الحذف من المفضله');
+                    } else {
+                      cubit.addCFavorite(itemId: '${singleItem.id}', value: singleItem);
+                      cubit.changeFavoriteProduct(singleItem.id!);
+                      showMessage('Added to Favorite');
+                      // print('تم الاضافه الي المفضله');
+                    }
                   },
+                    textWishlist: cubit.isFavorite[singleItem.id] ?? false ?
+                    'Remove from wishlist' : 'Add to wishlist',
                   delete: () {
                     cubit.removeCartList('${singleItem.id}');
                     showMessage('Removed from cart');

@@ -1,27 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SingleCartItem extends StatelessWidget {
+class SingleFavoriteItem extends StatelessWidget {
   final String image;
   final String title;
   final String price;
-  final String counter;
-  final String textWishlist;
-  final Function() minus;
-  final Function() plus;
-  final Function() addToWishList;
-  final Function() delete;
-  const SingleCartItem({
+  final Function() removeToWishList;
+  const SingleFavoriteItem({
     super.key,
     required this.image,
     required this.title,
     required this.price,
-    required this.counter,
-    required this.minus,
-    required this.plus,
-    required this.addToWishList,
-    required this.delete,
-    required this.textWishlist,
+    required this.removeToWishList,
   });
 
   @override
@@ -42,10 +32,6 @@ class SingleCartItem extends StatelessWidget {
                 color: Colors.green.withOpacity(0.3),
               ),
               child: Image.network(image),
-              // FadeInImage.memoryNetwork(
-              //   placeholder: kTransparentImage,
-              //   image: image,
-              // ),
             ),
           ),
           Expanded(
@@ -73,45 +59,12 @@ class SingleCartItem extends StatelessWidget {
                             maxLines: 1,
                           ),
                         ),
-                        Row(
-                          children: [
-                            CupertinoButton(
-                              padding: EdgeInsets.zero,
-                              onPressed: minus,
-                              child: const CircleAvatar(
-                                maxRadius: 13,
-                                child: Icon(Icons.remove),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 6,
-                            ),
-                            Text(
-                              counter,
-                              style: const TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 6,
-                            ),
-                            CupertinoButton(
-                              padding: EdgeInsets.zero,
-                              onPressed: plus,
-                              child: const CircleAvatar(
-                                maxRadius: 13,
-                                child: Icon(Icons.add),
-                              ),
-                            ),
-                          ],
-                        ),
                         CupertinoButton(
                           padding: EdgeInsets.zero,
-                          onPressed: addToWishList,
-                          child: Text(
-    textWishlist,
-                            style: const TextStyle(
+                          onPressed: removeToWishList,
+                          child: const Text(
+                            'Remove to wishlist',
+                            style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
                             ),
@@ -142,10 +95,10 @@ class SingleCartItem extends StatelessWidget {
                             ),
                           ],
                         ),
-                        IconButton(
-                          onPressed: delete,
-                          icon: const Icon(Icons.delete,color: Colors.red,),
-                        ),
+                        // IconButton(
+                        //   onPressed: delete,
+                        //   icon: const Icon(Icons.delete,color: Colors.red,),
+                        // ),
                       ],
                     ),
                   ],

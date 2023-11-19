@@ -23,5 +23,17 @@ class ChangeFavoriteProduct extends AppStates{}
 
 class AddFavoriteState extends AppStates{}
 class RemoveFavoriteState extends AppStates{}
-// class CategoriesLoadingState extends AppStates{}
+
+class UserDataLoadingState extends AppStates{}
+class UserDataSuccessState extends AppStates{}
+class UserDataErrorState extends AppStates{
+  final String error;
+  UserDataErrorState(this.error);
+}
+
+class ImageProfileSuccessState extends AppStates{}
+class ImageProfileErrorState extends AppStates{}
+
+
+
 

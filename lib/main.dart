@@ -2,19 +2,19 @@ import 'package:e_commerce_app/bloc/bloc_observer.dart';
 import 'package:e_commerce_app/bloc/cubit_app/app_cubit.dart';
 import 'package:e_commerce_app/bloc/cubit_auth/auth_cubit.dart';
 import 'package:e_commerce_app/constants/theme.dart';
-import 'package:e_commerce_app/constants/uid.dart';
 import 'package:e_commerce_app/dio_hlper/dio.dart';
-import 'package:e_commerce_app/screens/home/home.dart';
+import 'package:e_commerce_app/screens/custom_bottom_bar/custom_bottom_bar.dart';
 import 'package:e_commerce_app/shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/cubit_app/app_states.dart';
+import 'constants/uid.dart';
 import 'screens/auth/welcome/welcome.dart';
-import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  CacheHelper.init();
   await Firebase.initializeApp(
     // Android
     options: const FirebaseOptions(
@@ -33,38 +33,28 @@ void main() async {
       projectId: "e-commerce-app-bb498",
     ),
   );
-  CacheHelper.init();
+
   DioHelper.init();
   Bloc.observer = MyBlocObserver();
 
 
-  // to get profile to user
-  Widget? widget;
-  // uId = CacheHelper.getData(key: 'uId');
-
+   uId = (await CacheHelper.getData(key: 'uId') as String?);
   if (uId != null) {
-    widget = const Home();
+    print('${uId}tmm');
   } else {
-    widget = const Welcome();
+    print('uId is null');
   }
 
-// if (kIsWeb) {
-// setPathUrlStrategy();
-// runApp(
-//   MyApp(),
-// );
-  if (true) {
-    setPathUrlStrategy();
+  Widget widget = uId != null ? const CustomBottomBar() : const Welcome();
   runApp(MyApp(
     startWidget: widget,
   ));
-  }
 }
 
-// ignore: must_be_immutable
+
 class MyApp extends StatelessWidget {
-  MyApp({super.key, required this.startWidget});
-  Widget startWidget;
+  final Widget startWidget;
+  const MyApp({super.key, required this.startWidget});
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -75,7 +65,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (BuildContext context) => AppCubit()
             ..getCategories()
-            ..getCategoryView(),
+            ..getCategoryView()
+            ..getUserData(),
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
@@ -84,7 +75,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Ciseco',
           theme: themeData,
-          home: const Home(),
+          home: startWidget,
         ),
       ),
     );

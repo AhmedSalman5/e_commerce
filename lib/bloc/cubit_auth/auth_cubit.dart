@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce_app/shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../constants/uid.dart';
 import '../../models/user_model.dart';
 import 'auth_states.dart';
 
@@ -82,11 +82,9 @@ class AuthCubit extends Cubit<AuthStates> {
         .then((value) {
       print('تم تسجيل الدخول');
       print(value.user!.uid);
-      // uId = value.user!.uid;
-      // print(uId);
-      CacheHelper.saveData(key: 'uId', value: value.user!.uid);
-      // print(uId);
-      emit(LoginSuccessState(value.user!.uid));
+      if (value.user?.uid != null) {
+        emit(LoginSuccessState(value.user!.uid));
+      }
     }).catchError((error) {
       emit(LoginErrorState(error.toString()));
     });
@@ -98,6 +96,7 @@ class AuthCubit extends Cubit<AuthStates> {
     required email,
     required phone,
     required password,
+
   }) {
     emit(RegisterLoadingState());
     FirebaseAuth.instance
@@ -117,6 +116,7 @@ class AuthCubit extends Cubit<AuthStates> {
       );
       emit(RegisterSuccessState(value.user!.uid));
     }).catchError((error) {
+      print(error);
       emit(RegisterErrorState(error.toString()));
     });
   }
@@ -139,6 +139,7 @@ class AuthCubit extends Cubit<AuthStates> {
       email: email,
       phone: phone,
       uId: uId,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNZ64eVx7NWbXzGZA4HOCFluiDfHx1gdVh-A&usqp=CAU',
       isEmailVerified: false,
     );
 
@@ -150,10 +151,31 @@ class AuthCubit extends Cubit<AuthStates> {
         )
         .then((value) {
       print('تم انشاء حساب');
-      emit(CreateUserSuccessState());
+      emit(CreateUserSuccessState(
+        uId
+      ));
     }).catchError((error) {
       print(error.toString());
       emit(CreateUserErrorState(error));
     });
   }
+
+  //----------------------------------------------------------------------------
+
+  // Future<void> signOut(context) async {
+  //   try {
+  //     await FirebaseAuth.instance.signOut();
+  //     // Routes.instance.pushAndRemoveUntil(
+  //     //     context: context, widget: const Welcome());
+  //     // emit(SignOutState());
+  //   } catch (error) {
+  //     print("Error signing out: $error");
+  //     emit(ErrorSignOutState(error.toString()));
+  //   }
+  // }
+
+
+  //----------------------------------------------------------------------------
+
 }
+
