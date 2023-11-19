@@ -5,6 +5,7 @@ import 'package:e_commerce_app/constants/theme.dart';
 import 'package:e_commerce_app/constants/uid.dart';
 import 'package:e_commerce_app/dio_hlper/dio.dart';
 import 'package:e_commerce_app/screens/home/home.dart';
+import 'package:e_commerce_app/screens/on_boarding/on_boading.dart';
 import 'package:e_commerce_app/shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +85,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Ciseco',
           theme: themeData,
-          home: const Home(),
+          home: OnBoardingScreen(),
         ),
       ),
     );
